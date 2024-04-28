@@ -1,0 +1,2 @@
+#./Examples/RGB-D/rgbd_tum Vocabulary/ORBvoc.txt Examples/RGB-D/TUM3.yaml ../../Dataset/rgbd_dataset_freiburg3_walking_xyz ../../Dataset/rgbd_dataset_freiburg3_walking_xyz/associations.txt
+./Examples/RGB-D/rgbd_tum_masked Vocabulary/ORBvoc.txt Examples/RGB-D/TUM3.yaml ../../Dataset/rgbd_dataset_freiburg3_walking_xyz ../../Dataset/rgbd_dataset_freiburg3_walking_xyz/modified_fassociations.txt

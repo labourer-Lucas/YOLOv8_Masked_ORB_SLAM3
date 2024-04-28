@@ -196,8 +196,8 @@ Frame::Frame(const cv::Mat &imLeft, const cv::Mat &imRight, const double &timeSt
 
     AssignFeaturesToGrid();
 }
-
-Frame::Frame(const cv::Mat &imGray, const cv::Mat &imDepth, const double &timeStamp, ORBextractor* extractor,ORBVocabulary* voc, cv::Mat &K, cv::Mat &distCoef, const float &bf, const float &thDepth, GeometricCamera* pCamera,Frame* pPrevF, const IMU::Calib &ImuCalib)
+// mask RGBD
+Frame::Frame(const cv::Mat &mask,const cv::Mat &imGray, const cv::Mat &imDepth, const double &timeStamp, ORBextractor* extractor,ORBVocabulary* voc, cv::Mat &K, cv::Mat &distCoef, const float &bf, const float &thDepth, GeometricCamera* pCamera,Frame* pPrevF, const IMU::Calib &ImuCalib)
     :mpcpi(NULL),mpORBvocabulary(voc),mpORBextractorLeft(extractor),mpORBextractorRight(static_cast<ORBextractor*>(NULL)),
      mTimeStamp(timeStamp), mK(K.clone()), mK_(Converter::toMatrix3f(K)),mDistCoef(distCoef.clone()), mbf(bf), mThDepth(thDepth),
      mImuCalib(ImuCalib), mpImuPreintegrated(NULL), mpPrevFrame(pPrevF), mpImuPreintegratedFrame(NULL), mpReferenceKF(static_cast<KeyFrame*>(NULL)), mbIsSet(false), mbImuPreintegrated(false),
@@ -226,7 +226,28 @@ Frame::Frame(const cv::Mat &imGray, const cv::Mat &imDepth, const double &timeSt
     mTimeORB_Ext = std::chrono::duration_cast<std::chrono::duration<double,std::milli> >(time_EndExtORB - time_StartExtORB).count();
 #endif
 
-
+    int M = mvKeys.size();
+    std::vector<cv::KeyPoint> _mvKeys;
+    cv::Mat _mDescriptors;
+    if (M<9000 && M!=0){
+        int num=0;
+        for (int i =0; i< M; ++i){
+            int x_r = floor(mvKeys[i].pt.x);
+            int y_r = floor(mvKeys[i].pt.y);
+             //cout << "mask data" << mask.at<float>(y_r, x_r) << endl;
+            //if (mask.at<cv::Vec4b>(y_r, x_r)[1]>0 ||mask.at<cv::Vec4b>(y_r+1, x_r)[1]>0 ||mask.at<cv::Vec4b>(y_r, x_r+1)[1]>0 || mask.at<cv::Vec4b>(y_r+1, x_r+1)[1]>0 ){
+            if((int)mask.at<uchar>(mvKeys[i].pt.y,mvKeys[i].pt.x)>0){
+                    num+=1;
+                }
+            else {
+                _mvKeys.push_back(mvKeys[i]);
+                _mDescriptors.push_back(mDescriptors.row(i));
+                }
+        }
+        std::cout<< "Erase featrues number ="<<  num << std::endl;
+    }   
+    mvKeys = _mvKeys;
+    mDescriptors =_mDescriptors;
     N = mvKeys.size();
 
     if(mvKeys.empty())
