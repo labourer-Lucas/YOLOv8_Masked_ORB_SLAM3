@@ -1,6 +1,31 @@
-# ORB-SLAM3
+# YOLOv8 Masked ORB SLAM3
+
+This Repo is the code of my undergraduate thesis. In my graduate design,two methods of dynamic SLAM systems are introduced:
+
+- Features removed SLAM based on masks generated:
+
+GIF below shows the implementation of features removed SLAM system, this method is largely inspired by [Masked ORB-SLAM3](https://github.com/lieblius/masked-orbslam3), and I introduce YOLOv8 for instance segmentation and adapt the code for RGBD mode.
+
+![out](README.assets/out.gif)
+
+
+
+- Dynamic Object removed SLAM system:
+
+GIF below shows the implementation of Dynamic Objects removed SLAM system,this method is largely inspired by [Monorec-SLAM](https://github.com/silvery107/monorec-slam), YOLOv8 is introduced as well for instance segmentation in this method.
+
+![removed](README.assets/removed.gif)
+
+
+
+
+
+------
+
+Original README.md
 
 ### V1.0, December 22th, 2021
+
 **Authors:** Carlos Campos, Richard Elvira, Juan J. Gómez Rodríguez, [José M. M. Montiel](http://webdiis.unizar.es/~josemari/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/).
 
 The [Changelog](https://github.com/UZ-SLAMLab/ORB_SLAM3/blob/master/Changelog.md) describes the features of each version.
@@ -37,7 +62,7 @@ ORB-SLAM3 is released under [GPLv3 license](https://github.com/UZ-SLAMLab/ORB_SL
 For a closed-source version of ORB-SLAM3 for commercial purposes, please contact the authors: orbslam (at) unizar (dot) es.
 
 If you use ORB-SLAM3 in an academic work, please cite:
-  
+
     @article{ORBSLAM3_TRO,
       title={{ORB-SLAM3}: An Accurate Open-Source Library for Visual, Visual-Inertial 
                and Multi-Map {SLAM}},
@@ -165,14 +190,14 @@ and add at the end the following line. Replace PATH by the folder where you clon
   ```
   export ROS_PACKAGE_PATH=${ROS_PACKAGE_PATH}:PATH/ORB_SLAM3/Examples/ROS
   ```
-  
+
 2. Execute `build_ros.sh` script:
 
   ```
   chmod +x build_ros.sh
   ./build_ros.sh
   ```
-  
+
 ### Running Monocular Node
 For a monocular input from topic `/camera/image_raw` run node ORB_SLAM3/Mono. You will need to provide the vocabulary file and a settings file. See the monocular examples above.
 
@@ -200,7 +225,7 @@ For a stereo input from topics `/camera/left/image_raw` and `/camera/right/image
   ```
   rosrun ORB_SLAM3 Stereo_Inertial PATH_TO_VOCABULARY PATH_TO_SETTINGS_FILE ONLINE_RECTIFICATION [EQUALIZATION]	
   ```
-  
+
 ### Running RGB_D Node
 For an RGB-D input from topics `/camera/rgb/image_raw` and `/camera/depth_registered/image_raw`, run node ORB_SLAM3/RGBD. You will need to provide the vocabulary file and a settings file. See the RGB-D example above.
 
@@ -212,15 +237,15 @@ For an RGB-D input from topics `/camera/rgb/image_raw` and `/camera/depth_regist
   ```
   roscore
   ```
-  
+
   ```
   rosrun ORB_SLAM3 Stereo_Inertial Vocabulary/ORBvoc.txt Examples/Stereo-Inertial/EuRoC.yaml true
   ```
-  
+
   ```
   rosbag play --pause V1_02_medium.bag /cam0/image_raw:=/camera/left/image_raw /cam1/image_raw:=/camera/right/image_raw /imu0:=/imu
   ```
-  
+
 Once ORB-SLAM3 has loaded the vocabulary, press space in the rosbag tab.
 
 **Remark:** For rosbags from TUM-VI dataset, some play issue may appear due to chunk size. One possible solution is to rebag them with the default chunk size, for example:
