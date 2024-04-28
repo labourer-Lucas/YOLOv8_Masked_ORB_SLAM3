@@ -16,7 +16,9 @@ GIF below shows the implementation of Dynamic Objects removed SLAM system,this m
 
 ![removed](README.assets/removed.gif)
 
+# Features removed SLAM：
 
+![image-20240428135806375](README.assets/image-20240428135806375.png)
 
 
 
