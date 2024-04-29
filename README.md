@@ -16,13 +16,85 @@ GIF below shows the implementation of Dynamic Objects removed SLAM system,this m
 
 ![removed](README.assets/removed.gif)
 
-# Features removed SLAM：
+# Installation
 
-![image-20240428135806375](README.assets/image-20240428135806375.png)
+It's highly recommended to install and run ORB-SLAM3 in advance in your device.
+
+1. Download this repo
+
+```bash
+git clone git@github.com:labourer-Lucas/YOLOv8_Masked_ORB_SLAM3.git
+```
+
+2. create python environment
+
+```bash
+conda create -n maksedSLAM
+conda activate maskedSLAM
+# Install the ultralytics package using conda
+conda install -c conda-forge ultralytics
+```
+
+3. install pytorch according to your device(CUDA or CPU), please follow the instructions in [PyTorch](https://pytorch.org/get-started/locally/) :
+
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+```
+
+4.  install ORB-SLAM3 dependencies (Thanks [Mauhing](https://github.com/Mauhing) for his [guide]([Mauhing/ORB_SLAM3: ORB-SLAM3: An Accurate Open-Source Library for Visual, Visual-Inertial and Multi-Map SLAM (github.com)](https://github.com/Mauhing/ORB_SLAM3)) in running ORB-SLAM3):
+
+```bash
+sudo apt update
+
+sudo apt-get install build-essential
+sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+
+sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libdc1394-22-dev libjasper-dev
+
+sudo apt-get install libglew-dev libboost-all-dev libssl-dev
+```
+
+Install OpenCV 4.2:
+
+```bash
+~$ git clone https://github.com/opencv/opencv.git
+~$ git clone https://github.com/opencv/opencv_contrib.git
+~$ cd opencv
+~/opencv$ git checkout 4.2.0
+~/opencv$ cd ../opencv_contrib
+~/opencv_contrib$ git checkout 4.2.0
+~/opencv_contrib$ cd ../opencv
+~/opencv$ mkdir build && cd build
+~/opencv/build$ cmake -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules ..
+~/opencv/build$ make -j8
+~/opencv/build$ sudo make install
+```
+
+Install eigen3:
+
+```bash
+sudo apt install libeigen3-dev
+```
+
+Install Pangolin:
+
+```shell
+git clone https://github.com/stevenlovegrove/Pangolin.git
+cd Pangolin 
+mkdir build 
+cd build 
+cmake .. -D CMAKE_BUILD_TYPE=Release 
+make -j 3 
+sudo make install
+```
+5. install ORB-SLAM3 and my examples:
+
+```bash
+chmod +x build.sh
+./build.sh
+```
 
 
-
-------
 
 Original README.md
 
