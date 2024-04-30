@@ -93,8 +93,25 @@ sudo make install
 chmod +x build.sh
 ./build.sh
 ```
+# Quick Start
+1. Download TUM RGB-D Dataset from [Computer Vision Group - Dataset Download (tum.de)](https://cvg.cit.tum.de/data/datasets/rgbd-dataset/download)
+
+you
+
+```bash
+```
 
 
+
+2. Associate RGB images and depth images using the python script [associate.py](src\python\associate.py)
+
+```bash
+python src/python/associate.py PATH_TO_SEQUENCE/rgb.txt PATH_TO_SEQUENCE/depth.txt --outpath PATH_TO_SEQUENCE
+```
+
+
+
+------
 
 Original README.md
 

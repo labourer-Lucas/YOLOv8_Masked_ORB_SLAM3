@@ -111,6 +111,7 @@ if __name__ == '__main__':
     parser.add_argument('--first_only', help='only output associated lines from first file', action='store_true')
     parser.add_argument('--offset', help='time offset added to the timestamps of the second file (default: 0.0)',default=0.0)
     parser.add_argument('--max_difference', help='maximally allowed time difference for matching entries (default: 0.02)',default=0.02)
+     parser.add_argument("--outpath", type=str, default="output")
     args = parser.parse_args()
 
     first_list = read_file_list(args.first_file)
@@ -118,11 +119,34 @@ if __name__ == '__main__':
 
     matches = associate(first_list, second_list,float(args.offset),float(args.max_difference))    
 
-    if args.first_only:
-        for a,b in matches:
-            print("%f %s"%(a," ".join(first_list[a])))
-    else:
-        for a,b in matches:
-            print("%f %s %f %s"%(a," ".join(first_list[a]),b-float(args.offset)," ".join(second_list[b])))
-            
+    # Ensure output directory exists
+    if not os.path.exists(args.outpath):
+        os.makedirs(args.outpath)
+
+    # Define the full path for the output file
+    output_file_path = os.path.join(args.outpath, 'associations.txt')
+
+    # Open the file for writing
+    with open(output_file_path, 'w') as file:
+        if args.first_only:
+            for a, b in matches:
+                file.write("%f %s\n" % (a, " ".join(first_list[a])))
+        else:
+            for a, b in matches:
+                file.write("%f %s %f %s\n" % (a, " ".join(first_list[a]), b - float(args.offset), " ".join(second_list[b])))
+    # Adapt for my design
+    with open(output_file_path, 'r') as file:
+        lines = file.readlines()
+
+    modified_lines = []
+    for line in lines:
+        columns = line.split()
+        first_column = columns[0]
+        fifth_column = f"mask/{first_column}.png"
+        modified_line = f"{line.strip()} {fifth_column}\n"
+        modified_lines.append(modified_line)
+
+    with open(output_file_path, 'w') as file:
+        file.writelines(modified_lines)
+
         
