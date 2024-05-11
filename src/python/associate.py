@@ -111,7 +111,7 @@ if __name__ == '__main__':
     parser.add_argument('--first_only', help='only output associated lines from first file', action='store_true')
     parser.add_argument('--offset', help='time offset added to the timestamps of the second file (default: 0.0)',default=0.0)
     parser.add_argument('--max_difference', help='maximally allowed time difference for matching entries (default: 0.02)',default=0.02)
-     parser.add_argument("--outpath", type=str, default="output")
+    parser.add_argument("--outpath", type=str, default="associations")
     args = parser.parse_args()
 
     first_list = read_file_list(args.first_file)
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     # Define the full path for the output file
     output_file_path = os.path.join(args.outpath, 'associations.txt')
-
+    output_file_path_modified = os.path.join(args.outpath, 'associations_modified.txt')
     # Open the file for writing
     with open(output_file_path, 'w') as file:
         if args.first_only:
@@ -147,6 +147,6 @@ if __name__ == '__main__':
         modified_lines.append(modified_line)
 
     with open(output_file_path, 'w') as file:
-        file.writelines(modified_lines)
+        file.writelines(output_file_path_modified)
 
         
